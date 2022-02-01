@@ -38,13 +38,10 @@ func Connect(
 
 // Init connects to the tradingview web socket
 func (s *Socket) Init() (err error) {
+	proxyUrl, err := url.Parse("http://innolab_svc:I!nnolab@10.2.97.67:8085")
 	s.isClosed = true
 	s.conn, _, err = (&websocket.Dialer{
-		Proxy: http.ProxyURL(&url.URL{
-			Scheme: "http",
-			Host:   "innolab_svc:I!nnolab@10.2.97.67:8085",
-			Path:   "/",
-		}),
+		Proxy: http.ProxyURL(proxyUrl),
 	}).Dial("wss://data.tradingview.com/socket.io/websocket", getHeaders())
 	if err != nil {
 		s.onError(err, InitErrorContext)
