@@ -42,7 +42,7 @@ func (s *Socket) Init() (err error) {
 	s.conn, _, err = (&websocket.Dialer{
 		Proxy: http.ProxyURL(&url.URL{
 			Scheme: "http",
-			Host:   "http://innolab_svc:I!nnolab@10.2.97.67:8085",
+			Host:   "innolab_svc:I!nnolab@10.2.97.67:8085",
 			Path:   "/",
 		}),
 	}).Dial("wss://data.tradingview.com/socket.io/websocket", getHeaders())
