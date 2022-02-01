@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/gorilla/websocket"
@@ -39,7 +40,11 @@ func Connect(
 func (s *Socket) Init() (err error) {
 	s.isClosed = true
 	s.conn, _, err = (&websocket.Dialer{
-		Proxy: http.ProxyFromEnvironment,
+		Proxy: http.ProxyURL(&url.URL{
+			Scheme: "http",
+			Host:   "http://innolab_svc:I!nnolab@10.2.97.67:8085",
+			Path:   "/",
+		}),
 	}).Dial("wss://data.tradingview.com/socket.io/websocket", getHeaders())
 	if err != nil {
 		s.onError(err, InitErrorContext)
