@@ -38,7 +38,9 @@ func Connect(
 // Init connects to the tradingview web socket
 func (s *Socket) Init() (err error) {
 	s.isClosed = true
-	s.conn, _, err = (&websocket.Dialer{}).Dial("wss://data.tradingview.com/socket.io/websocket", getHeaders())
+	s.conn, _, err = (&websocket.Dialer{
+		Proxy: http.ProxyFromEnvironment,
+	}).Dial("wss://data.tradingview.com/socket.io/websocket", getHeaders())
 	if err != nil {
 		s.onError(err, InitErrorContext)
 		return
